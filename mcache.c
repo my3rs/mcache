@@ -53,6 +53,9 @@
 #define ngx_align_ptr(p, a)                                                   \
     (u_char *) (((uintptr_t) (p) + ((uintptr_t) a - 1)) & ~((uintptr_t) a - 1))
 
+
+
+
 typedef struct ngx_slab_page_s  ngx_slab_page_t;
 
 struct ngx_slab_page_s {
@@ -67,7 +70,7 @@ typedef struct {
     u_short                      len;
     ngx_queue_t                  queue;
 
-    uint32_t                     value;
+    value_t                     value;
 
     u_char                       data[1];
 } mcache_kv_node_t;
@@ -993,7 +996,7 @@ int mcache_kv_free(mcache_kv_t *kvs)
     return res;
 }
 
-int mcache_kv_set(mcache_kv_t *kvs, u_char *key, uint32_t value)
+int mcache_kv_set(mcache_kv_t *kvs, u_char *key, value_t value)
 {
     size_t   len, size;
     uint32_t hash;
@@ -1043,7 +1046,7 @@ int mcache_kv_set(mcache_kv_t *kvs, u_char *key, uint32_t value)
     return 0;
 }
 
-int mcache_kv_get(mcache_kv_t *kvs, u_char *key, uint32_t *value)
+int mcache_kv_get(mcache_kv_t *kvs, u_char *key, value_t *value)
 {
     size_t   len;
     uint32_t hash;

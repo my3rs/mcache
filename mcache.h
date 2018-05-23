@@ -17,6 +17,10 @@ enum ecode {
 	MC_KEY_NOEXISTS,
 };
 
+
+
+
+
 static const char *estr[] = {
     "success",
     "initialized size is too small",
@@ -31,10 +35,17 @@ static const char *estr[] = {
 typedef struct mcache_s        mcache_t;
 typedef struct mcache_kv_s     mcache_kv_t;
 typedef struct mcache_index_s  mcache_index_t;
+typedef struct block_map_entry 	value_t;
 
 struct mcache_s {
 	u_char	*addr;
 	size_t	 size;
+};
+
+struct block_map_entry {
+	uint64_t nbd_offset;
+	uint64_t length;
+	char fingerprint[10];
 };
 
 struct mcache_index_s {
@@ -59,8 +70,8 @@ const char *mcache_estr(int ecode);
 
 mcache_kv_t  *mcache_kv_init(size_t size, char *err_buf, size_t err_len);
 int           mcache_kv_free(mcache_kv_t *kvs);
-int           mcache_kv_set(mcache_kv_t *kvs, u_char *key, uint32_t value);
-int           mcache_kv_get(mcache_kv_t *kvs, u_char *key, uint32_t *value);
+int           mcache_kv_set(mcache_kv_t *kvs, u_char *key, value_t value);
+int           mcache_kv_get(mcache_kv_t *kvs, u_char *key, value_t *value);
 int           mcache_kv_delete(mcache_kv_t *kvs, u_char *key);
 int           mcache_kv_count(mcache_kv_t *kvs);       
 
